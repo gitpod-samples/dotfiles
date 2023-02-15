@@ -1,0 +1,16 @@
+while read -r file; do
+
+    current_dir="$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)"
+    dotfiles_source="${current_dir}/raw_files"
+
+    relative_file_path="${file#"${dotfiles_dir}"/}"
+    target_file="${HOME}/${relative_file_path}"
+    target_dir="${target_file%/*}"
+
+    if test ! -d "$target_dir"; then
+        mkdir -p "$target_dir"
+    fi
+
+    ln -sf "$file" "$target_file"
+
+done < <(find "${dotfiles_source}" -type f)
