@@ -6,17 +6,20 @@ echo "This is from the installation script!"
 source $HOME/.nix-profile/etc/profile.d/nix.sh
 
 (
+    # Install packages/tools with nix
     nix-env -iA nixpkgs.gh \
             nixpkgs.google-cloud-sdk \
             nixpkgs.fzf \
             nixpkgs.bat \
             nixpkgs.fd > /tmp/plog 2>&1
     
+    # non-interactive login into gh CLI
     echo "$MY_TOKEN" | gh auth login --with-token
 
 ) & disown
 
 (
+    # Install packages with apt
     sudo apt update
     sudo apt install -yq cowsay sl tmux
 ) > /tmp/plog 2>&1 & disown
