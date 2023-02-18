@@ -6,17 +6,20 @@ echo "This is from the installation script!"
 source $HOME/.nix-profile/etc/profile.d/nix.sh
 
 (
+    # Install packages/tools with nix
     nix-env -iA nixpkgs.gh \
             nixpkgs.google-cloud-sdk \
             nixpkgs.fzf \
             nixpkgs.bat \
             nixpkgs.fd > /tmp/plog 2>&1
     
+    # non-interactive login into gh CLI
     echo "$MY_TOKEN" | gh auth login --with-token
 
 ) & disown
 
 (
+    # Install packages with apt
     sudo apt update
     sudo apt install -yq cowsay sl tmux
 ) > /tmp/plog 2>&1 & disown
@@ -30,7 +33,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 # Install powerlevel10k
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+# No need for the below command as the `home_files/.zshrc` already has the line.
+# echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 
 # Symlink dotfiles
 current_dir="$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)"
