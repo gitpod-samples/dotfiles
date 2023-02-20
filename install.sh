@@ -54,3 +54,7 @@ while read -r file; do
     ln -sf "${file}" "${target_file}"
 
 done < <(find "${dotfiles_source}" -type f)
+
+# Load bash environment in zsh
+# Taken from https://github.com/axonasif/bashenv.zsh
+echo "set +m; source <(bash -lic 'declare -px'); set -m" >> "$HOME/.zshrc"
